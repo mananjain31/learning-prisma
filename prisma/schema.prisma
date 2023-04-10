@@ -15,10 +15,13 @@ model User {
   name           String
   age            Int
   email          String          @unique
-  isAdmin        Boolean
+  role           Role            @default(BASIC)
   writtenPosts   Post[]          @relation("WrittenPosts")
   favouritePosts Post[]          @relation("FavouritedPosts")
   UserPreference UserPreference?
+
+  @@unique([age, name])
+  @@index([email])
 }
 
 model UserPreference {
@@ -39,10 +42,17 @@ model Post {
   favouritedBy   User?      @relation("FavouritedPosts", fields: [favouritedById], references: [id])
   favouritedById String
   categories     Category[]
+
+  // @@id([title, authorId])
 }
 
 model Category {
   id    String @id @default(uuid())
   name  String @unique
   posts Post[]
+}
+
+enum Role {
+  BASIC
+  ADMIN
 }
