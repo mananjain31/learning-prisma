@@ -14,8 +14,14 @@ const main = async () => {
         },
       },
     },
-    include: {
-      userPreference: true,
+    select: {
+      name: true,
+      email: true,
+      userPreference: {
+        select: {
+          emailUpdates: true,
+        },
+      },
     },
   });
   console.log(user);
