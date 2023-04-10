@@ -1,31 +1,38 @@
 # Description of the latest commit
 
-run this command to regenrate prisma client code for coding in it    
-```bash
-npx prisma generate
-```
+- Nested Creations in single create function using "create" 
+- "include" or "select" attribute to get depth of nested creations in our returned created object
+- fixes in User an UserPreference  models
+- include to include foreign key attributes in the returned object
+- select to select specific column to be outputted in the returned object
 
-## create user : 
+### Code:
 ```ts
-
+await prisma.user.deleteMany();
 const user = await prisma.user.create({
 data: {
     name: "Manan",
     email: "mananjain31jan@gmail.com",
     age: 21,
+    userPreference: {
+    create: {
+        emailUpdates: true,
+    },
+    },
+},
+include: {
+    userPreference: true,
 },
 });
 console.log(user);
-
-
 ```
-output: 
-```bash
+### OUTPUT:
 {
-  id: '2aa2a5fd-5b46-48c9-8934-d7210c8c2c21',
+  id: 'b86ccb99-befb-4105-a857-76c11c346c57',
   name: 'Manan',
   age: 21,
   email: 'mananjain31jan@gmail.com',
-  role: 'BASIC'
+  role: 'BASIC',
+  userPreferenceId: '9d164cc2-53b9-4646-8453-f3c11809a793',
+  userPreference: { id: '9d164cc2-53b9-4646-8453-f3c11809a793', emailUpdates: true }
 }
-```
