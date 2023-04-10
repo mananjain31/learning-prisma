@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts" : {
+    "devStart" : "nodemon script.ts"
+  },
   "dependencies": {
     "@prisma/client": "^4.12.0"
   },
